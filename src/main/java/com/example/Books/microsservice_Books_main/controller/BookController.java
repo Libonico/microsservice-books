@@ -24,8 +24,7 @@ public class BookController {
         return service.register(book);
     }
 
-    @RequestMapping(value = "/edit",
-            method = RequestMethod.PUT,
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -42,16 +41,16 @@ public class BookController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Book findBookById(@PathVariable("id") Long id) {
-        return service.findBookById(id);
+    public Book searchBook(@PathVariable("id") Long id) {
+        return service.searchBook(id);
     }
 
-    @RequestMapping(value ="/all_books",
+    @RequestMapping(value ="/list",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Book> listAllBooks() {
-        return service.listAllBooks();
+    public List<Book> listBooks() {
+        return service.listBooks();
     }
 
 }

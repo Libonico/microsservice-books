@@ -41,15 +41,15 @@ public class BookService {
         Book entity = bookRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
 
-        bookRepository.delete(entity);
+        bookRepository.deleteById(id);
     }
 
-    public Book findBookById(Long id){
+    public Book searchBook(Long id){
         logger.info("Book found.");
         return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
     }
 
-    public List<Book> listAllBooks() {
+    public List<Book> listBooks() {
         logger.info("Books found.");
         return bookRepository.findAll();
     }
