@@ -15,43 +15,43 @@ public class BookController {
     @Autowired
     private BookService service;
 
-    @RequestMapping(value = "/cadastrar",
+    @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Book cadastrar(@RequestBody Book book) {
-        return service.cadastrar(book);
+    public Book register(@RequestBody Book book) {
+        return service.register(book);
     }
 
-    @RequestMapping(value = "/editar",
+    @RequestMapping(value = "/edit",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Book editar(@RequestBody Book book) {
-        return service.editar(book);
+    public Book edit(@RequestBody Book book) {
+        return service.edit(book);
     }
 
-    @RequestMapping(value = "/remover/{id}", method = RequestMethod.DELETE)
-    public void remover(@PathVariable("id") String id) {
-        service.remover(id);
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+    public void remove(@PathVariable("id") Long id) {
+        service.remove(id);
     }
 
     @RequestMapping(value = "/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Book findById(@PathVariable("id") String id) {
-        return service.buscaPorId(id);
+    public Book findBookById(@PathVariable("id") Long id) {
+        return service.findBookById(id);
     }
 
-    @RequestMapping(value ="/listar_todos",
+    @RequestMapping(value ="/all_books",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Book> listarTodos() {
-        return service.listarTodos();
+    public List<Book> listAllBooks() {
+        return service.listAllBooks();
     }
 
 }

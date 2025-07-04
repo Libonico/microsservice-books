@@ -1,7 +1,7 @@
     package com.example.Books.microsservice_Books_main.entity;
 
+    import com.example.Books.microsservice_Books_main.enums.ContentRatingEnum;
     import jakarta.persistence.*;
-
     import java.io.Serializable;
     import java.util.Objects;
 
@@ -14,71 +14,73 @@
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
 
-        private String titulo;
-        private String autor;
-        private int anoPublicado;
-        private String genero;
+        private String title;
+        private String author;
+        private int publishedYear;
+        private String gender;
+        private String pagesQuantity;
+        private ContentRatingEnum contentRating;
 
         public Book() {}
 
-        public Book(long id, String titulo, String autor, int ano, String genero) {
+        public Book(long id, String title, String author, int publishedYear, String gender, String pagesQuantity, ContentRatingEnum contentRating) {
             super();
             this.id = id;
-            this.titulo = titulo;
-            this.autor = autor;
-            this.anoPublicado = ano;
-            this.genero = genero;
+            this.title = title;
+            this.author = author;
+            this.publishedYear = publishedYear;
+            this.gender = gender;
+            this.pagesQuantity = pagesQuantity;
+            this.contentRating = contentRating;
         }
 
-        public Book(String titulo, String autor, int ano) {
-            this.titulo = titulo;
-            this.autor = autor;
-            this.anoPublicado = ano;
-        }
+        public ContentRatingEnum getContentRating() {return contentRating;}
+
+        public void setContentRating(ContentRatingEnum contentRating) {this.contentRating = contentRating;}
+
+        public String getPagesQuantity() {return pagesQuantity;}
+
+        public void setPagesQuantity(String pagesQuantity) {this.pagesQuantity = pagesQuantity;}
 
         public long getId() {
             return id;
         }
 
-        public void setId(long id) {
-            this.id = id;
+        public String getTitle() {
+            return title;
         }
 
-        public String getTitulo() {
-            return titulo;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public void setTitulo(String titulo) {
-            this.titulo = titulo;
+        public String getAuthor() {
+            return author;
         }
 
-        public String getAutor() {
-            return autor;
+        public void setAuthor(String author) {
+            this.author = author;
         }
 
-        public void setAutor(String autor) {
-            this.autor = autor;
+        public int getPublishedYear() {
+            return publishedYear;
         }
 
-        public int getAnoPublicado() {
-            return anoPublicado;
-        }
+        public void setPublishedYear(int PublishedYear) {this.publishedYear = PublishedYear;}
 
-        public void setAnoPublicado(int anoPublicado) {this.anoPublicado = anoPublicado;}
+        public String getGender() {return gender;}
 
-        public String getGenero() {return genero;}
-
-        public void setGenero(String genero) {this.genero = genero;}
+        public void setGender(String gender) {this.gender = gender;}
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Book book)) return false;
-            return getId() == book.getId() && getAnoPublicado() == book.getAnoPublicado() && Objects.equals(getTitulo(), book.getTitulo()) && Objects.equals(getAutor(), book.getAutor()) && Objects.equals(getGenero(), book.getGenero());
+            return getId() == book.getId() && getPublishedYear() == book.getPublishedYear() && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getGender(), book.getGender()) && Objects.equals(getPagesQuantity(), book.getPagesQuantity()) && getContentRating() == book.getContentRating();
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getId(), getTitulo(), getAutor(), getAnoPublicado(), getGenero());
+            return Objects.hash(getId(), getTitle(), getAuthor(), getPublishedYear(), getGender(), getPagesQuantity(), getContentRating());
         }
     }
