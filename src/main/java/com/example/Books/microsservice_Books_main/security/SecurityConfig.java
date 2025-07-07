@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/book").permitAll()
                         .requestMatchers(HttpMethod.GET, "/book/{id}").permitAll()
+                        .requestMatchers(HttpMethod.HEAD, "/book/{id}").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/book/remove/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/book/edit").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/book/register").hasRole("ADMIN")
