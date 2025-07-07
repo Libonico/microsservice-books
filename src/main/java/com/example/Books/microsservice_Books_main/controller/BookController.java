@@ -45,10 +45,7 @@ public class BookController {
         return service.searchBook(id);
     }
 
-    @RequestMapping(value ="/list",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping
     public List<Book> listBooks() {
         return service.listBooks();
     }
