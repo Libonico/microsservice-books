@@ -13,18 +13,20 @@ import java.util.logging.Logger;
 public class BookService {
 
     public final AtomicLong counter = new AtomicLong();
-    private Logger logger = Logger.getLogger(BookService.class.getName());
+    private Logger logger = Logger.getLogger(BookService.class.getName()); //cria o logger
 
     @Autowired
     private BookRepository bookRepository;
 
+    //função para registro de livros
     public Book register(Book book) {
-        logger.info("Book registred.");
+        logger.info("Book registred."); //logger para fins de confirmação através do console
         return bookRepository.save(book);
     }
 
+    //função para edição de livros
     public Book edit(Book book) {
-        logger.info("The informations has been edited.");
+        logger.info("The informations has been edited."); //logger para fins de confirmação através do console
         Book entity = bookRepository.findById(book.getId()).
                 orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
 
@@ -36,21 +38,24 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    //função para remoção de livros do sistema
     public void remove(Long id) {
-        logger.info("Book removed.");
+        logger.info("Book removed."); //logger para fins de confirmação através do console
         Book entity = bookRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
 
-        bookRepository.deleteById(id);
+        bookRepository.delete(entity);
     }
 
-    public Book searchBook(Long id){
-        logger.info("Book found.");
+    //função de localização do livro pelo id
+    public Book findBookById(Long id){
+        logger.info("Book found."); //logger para fins de confirmação através do console
         return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
     }
 
-    public List<Book> listBooks() {
-        logger.info("Books found.");
+    //função de localização de todos os livros cadastrados
+    public List<Book> listAllBooks() {
+        logger.info("Books found."); //logger para fins de confirmação através do console
         return bookRepository.findAll();
     }
 }
