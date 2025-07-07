@@ -1,7 +1,6 @@
 package com.example.Books.microsservice_Books_main.security;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.Books.microsservice_Books_main.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,14 +27,14 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
 
         if (token != null) {
-            var email = tokenService.validateToken(token);
-            if (email != null && !email.isEmpty()) {
-                DecodedJWT decodedJWT = JWT.decode(token);
-                String role = decodedJWT.getClaim("role").asString();
+            var userId = tokenService.validateToken(token);
+
+            if (userId != null && !userId.isEmpty()) {
+                var role = JWT.decode(token).getClaim("role").asString();
 
                 var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
 
-                var authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
+                var authentication = new UsernamePasswordAuthenticationToken(userId, null, authorities);
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
