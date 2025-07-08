@@ -60,4 +60,14 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping
+    public List<Book> listBooksByContentRating(@RequestParam(required = false) String contentRating) {
+        return service.listBooksByContentRating(contentRating);
+    }
+
+    @GetMapping
+    public List<Book> listBooksByTitleContainingIgnoreCase(@RequestParam(required = false) String title) {
+        return service.listBooksByTitleContainingIgnoreCase(title);
+    }
 }

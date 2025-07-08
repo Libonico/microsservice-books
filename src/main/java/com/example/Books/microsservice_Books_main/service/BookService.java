@@ -2,6 +2,7 @@ package com.example.Books.microsservice_Books_main.service;
 
 import com.example.Books.microsservice_Books_main.entity.Book;
 import com.example.Books.microsservice_Books_main.exception.ResourceNotFoundException;
+import com.example.Books.microsservice_Books_main.enums.ContentRatingEnum;
 import com.example.Books.microsservice_Books_main.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,24 @@ public class BookService {
     public List<Book> listBooks() {
         logger.info("Books found.");
         return bookRepository.findAll();
+    }
+
+    public List<Book> listBooksByContentRating(String contentRating) {
+        logger.info("Books found.");
+        if(contentRating != null && !contentRating.isEmpty()) {
+            ContentRatingEnum contentRatingEnum = ContentRatingEnum.valueOf(contentRating.toUpperCase());
+            return bookRepository.findBooksByContentRating(contentRatingEnum);
+        } else {
+            return bookRepository.findAll();
+        }
+    }
+
+    public List<Book> listBooksByTitleContainingIgnoreCase(String title) {
+        logger.info("Books found.");
+        if(title != null && !title.trim().isEmpty()) {
+            return bookRepository.findBooksByTitleContainingIgnoreCase(title);
+        } else {
+            return bookRepository.findAll();
+        }
     }
 }
