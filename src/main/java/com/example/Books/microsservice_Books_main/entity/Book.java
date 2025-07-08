@@ -19,8 +19,6 @@
         private int publishedYear;
         private String gender;
         private String pagesQuantity;
-
-        @Enumerated(EnumType.STRING)
         private ContentRatingEnum contentRating;
 
         public Book() {}

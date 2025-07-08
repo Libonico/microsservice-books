@@ -5,68 +5,67 @@ import com.example.Books.microsservice_Books_main.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import java.net.URI;
 
 import java.util.List;
 
 @RestController
-//define o prefixo "book" na url
 @RequestMapping("/book")
 public class BookController {
 
     @Autowired
     private BookService service;
-    @Autowired
-    private BookService bookService;
 
-    //retorna o registro de um livro em sistema
-    //localhost:8888/registrer
-    @PostMapping(value = "/register")
-    public ResponseEntity<Book> register(@RequestBody Book book) {
-        Book registredBook = bookService.register(book);
-
-        URI url = URI.create("/book/" + registredBook.getId());
-
-        return ResponseEntity.created(url).body(registredBook);
+    @RequestMapping(value = "/register",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Book register(@RequestBody Book book) {
+        return service.register(book);
     }
 
-    //retorna o livro editado
-    //localhost:8888/edit
-    @PutMapping(value = "/edit")
-    public ResponseEntity<Book> edit(@RequestBody Book book) {
-        return ResponseEntity.ok(service.edit(book));
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Book edit(@RequestBody Book book) {
+        return service.edit(book);
     }
 
-    //faz a remoção do livro do sistema
-    //localhost:8888/books/remove/{id}
-    @DeleteMapping(value = "/remove/{id}")
-    public ResponseEntity<?> remove(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+    public void remove(@PathVariable("id") Long id) {
         service.remove(id);
-        return ResponseEntity.noContent().build();
     }
 
-    //retorna o livro pelo id localizado
-    //localhost:8888/books/{id}
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Book> findBookById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(service.findBookById(id));
+    @RequestMapping(value = "/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Book searchBook(@PathVariable("id") Long id) {
+        return service.searchBook(id);
     }
 
-    //retorna os todos os livros cadastrados em sistema
-    //localhost:8888/books/all_books
-    @GetMapping(value ="/all_books")
-    public List<Book> listAllBooks() {
-        return service.listAllBooks();
+    @GetMapping
+    public List<Book> listBooks() {
+        return service.listBooks();
     }
 
-    //retorna os todos os livros filtrados por classificação indicativa
+    @RequestMapping(method = RequestMethod.HEAD, value = "/{id}")
+    public ResponseEntity<Void> bookExists(@PathVariable Long id) {
+        if (service.searchBook(id) != null) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public List<Book> listBooksByContentRating(@RequestParam(required = false) String contentRating) {
         return service.listBooksByContentRating(contentRating);
     }
 
-    //retorna os todos os livros filtrados por título
     @GetMapping
     public List<Book> listBooksByTitleContainingIgnoreCase(@RequestParam(required = false) String title) {
         return service.listBooksByTitleContainingIgnoreCase(title);
