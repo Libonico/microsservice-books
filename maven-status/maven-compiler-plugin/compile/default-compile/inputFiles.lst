@@ -1,0 +1,12 @@
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\controller\BookController.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\entity\Book.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\enums\ContentRatingEnum.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\exception\ExceptionResponse.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\exception\handler\CustomEntityResponseHandler.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\exception\ResourceNotFoundException.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\MicrosserviceBooksMainApplication.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\repositories\BookRepository.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\security\SecurityConfig.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\security\SecurityFilter.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\service\BookService.java
+C:\Users\Aluno\Desktop\PROJETO MICROSSERVICE\microsservice-books\src\main\java\com\example\Books\microsservice_Books_main\service\TokenService.java
