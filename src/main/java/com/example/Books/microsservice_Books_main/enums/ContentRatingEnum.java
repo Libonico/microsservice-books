@@ -1,7 +1,7 @@
 package com.example.Books.microsservice_Books_main.enums;
 
 public enum ContentRatingEnum {
-    L,
+    LIVRE,
     DEZ,
     DOZE,
     QUATORZE,
