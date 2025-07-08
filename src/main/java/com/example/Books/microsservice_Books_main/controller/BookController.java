@@ -22,10 +22,7 @@ public class BookController {
 
     //retorna o registro de um livro em sistema
     //localhost:8888/registrer
-    @PostMapping(value = "/register",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(value = "/register")
     public ResponseEntity<Book> register(@RequestBody Book book) {
         Book registredBook = bookService.register(book);
 
@@ -36,9 +33,7 @@ public class BookController {
 
     //retorna o livro editado
     //localhost:8888/edit
-    @PutMapping(value = "/edit",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/edit")
     public ResponseEntity<Book> edit(@RequestBody Book book) {
         return ResponseEntity.ok(service.edit(book));
     }
@@ -53,14 +48,14 @@ public class BookController {
 
     //retorna o livro pelo id localizado
     //localhost:8888/books/{id}
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Book> findBookById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(service.findBookById(id));
     }
 
     //retorna os todos os livros cadastrados em sistema
     //localhost:8888/books/all_books
-    @GetMapping(value ="/all_books", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value ="/all_books")
     public List<Book> listAllBooks() {
         return service.listAllBooks();
     }
