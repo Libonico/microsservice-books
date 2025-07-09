@@ -1,6 +1,7 @@
 package com.example.Books.microsservice_Books_main.service;
 
 import com.example.Books.microsservice_Books_main.entity.Book;
+import com.example.Books.microsservice_Books_main.enums.ContentRatingEnum;
 import com.example.Books.microsservice_Books_main.exception.ResourceNotFoundException;
 import com.example.Books.microsservice_Books_main.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,26 @@ public class BookService {
     public List<Book> listAllBooks() {
         logger.info("Books found."); //logger para fins de confirmação através do console
         return bookRepository.findAll();
+    }
+
+    //função de localização de todos os livros filtrados por classificação indicativa
+    public List<Book> listBooksByContentRating(String contentRating) {
+        logger.info("Books found."); //logger para fins de confirmação através do console
+        if(contentRating != null && !contentRating.isEmpty()) {
+            ContentRatingEnum contentRatingEnum = ContentRatingEnum.valueOf(contentRating.toUpperCase());
+            return bookRepository.findBooksByContentRating(contentRatingEnum);
+        } else {
+            return bookRepository.findAll();
+        }
+    }
+
+    //função de localização de todos os livros filtrados por título
+    public List<Book> listBooksByTitleContainingIgnoreCase(String title) {
+        logger.info("Books found."); //logger para fins de confirmação através do console
+        if(title != null && !title.trim().isEmpty()) {
+            return bookRepository.findBooksByTitleContainingIgnoreCase(title);
+        } else {
+            return bookRepository.findAll();
+        }
     }
 }
