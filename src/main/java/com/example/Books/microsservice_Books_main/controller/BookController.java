@@ -63,15 +63,10 @@ public class BookController {
         return service.listAllBooks();
     }
 
-    //retorna os todos os livros filtrados por classificação indicativa
-    @GetMapping
-    public List<Book> listBooksByContentRating(@RequestParam(required = false) String contentRating) {
-        return service.listBooksByContentRating(contentRating);
-    }
-
-    //retorna os todos os livros filtrados por título
-    @GetMapping
-    public List<Book> listBooksByTitleContainingIgnoreCase(@RequestParam(required = false) String title) {
-        return service.listBooksByTitleContainingIgnoreCase(title);
+    //retorna os todos os livros filtrados por classificação indicativa ou por título
+    @GetMapping(value = "/filter")
+    public List<Book> listBooksByContentRating(@RequestParam(required = false) String contentRating,
+                                               @RequestParam(required = false) String title) {
+        return service.listBooksByContentRatingOrTitle(contentRating, title);
     }
 }
