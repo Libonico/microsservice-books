@@ -60,24 +60,16 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    //função de localização de todos os livros filtrados por classificação indicativa
-    public List<Book> listBooksByContentRating(String contentRating) {
+    //função de localização de todos os livros filtrados por classificação indicativa ou por título
+    public List<Book> listBooksByContentRatingOrTitle(String contentRating, String title) {
         logger.info("Books found."); //logger para fins de confirmação através do console
         if(contentRating != null && !contentRating.isEmpty()) {
             ContentRatingEnum contentRatingEnum = ContentRatingEnum.valueOf(contentRating.toUpperCase());
             return bookRepository.findBooksByContentRating(contentRatingEnum);
-        } else {
-            return bookRepository.findAll();
         }
-    }
-
-    //função de localização de todos os livros filtrados por título
-    public List<Book> listBooksByTitleContainingIgnoreCase(String title) {
-        logger.info("Books found."); //logger para fins de confirmação através do console
         if(title != null && !title.trim().isEmpty()) {
             return bookRepository.findBooksByTitleContainingIgnoreCase(title);
-        } else {
-            return bookRepository.findAll();
         }
+        return bookRepository.findAll();
     }
 }
