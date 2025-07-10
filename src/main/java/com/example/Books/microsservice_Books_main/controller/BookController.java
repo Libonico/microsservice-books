@@ -37,6 +37,7 @@ public class BookController {
     public ResponseEntity<Book> register(@RequestParam("title")  String title,
                                          @RequestParam("author") String author,
                                          @RequestParam("publishedYear") Integer publishedYear,
+                                         @RequestParam("pagesQuantity") Integer pagesQuantity,
                                          @RequestParam("gender") String gender,
                                          @RequestParam("contentRating") String contentRating,
                                          @RequestParam("file") MultipartFile file) {
@@ -46,6 +47,7 @@ public class BookController {
             bookData.setTitle(title);
             bookData.setAuthor(author);
             bookData.setPublishedYear(publishedYear);
+            bookData.setPagesQuantity(String.valueOf(pagesQuantity));
             bookData.setGender(gender);
 
             //método que lida com o livro e a imagem
