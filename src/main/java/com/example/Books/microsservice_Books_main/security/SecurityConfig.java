@@ -28,6 +28,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/book/remove/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/book/edit").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/book/register").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/{id}/file").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,  "/filter").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

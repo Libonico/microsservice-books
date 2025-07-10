@@ -4,9 +4,10 @@ import com.example.Books.microsservice_Books_main.entity.Book;
 import com.example.Books.microsservice_Books_main.enums.ContentRatingEnum;
 import com.example.Books.microsservice_Books_main.exception.ResourceNotFoundException;
 import com.example.Books.microsservice_Books_main.repositories.BookRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -83,27 +84,62 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book saveBookImage(Long id, MultipartFile file) throws IOException {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found!"));
+    @Transactional
+    public Book registerWithImage(Book book,String contentRatingString, MultipartFile file) throws IOException {
+        logger.info("Registering a new book.");
 
-        // garante que o diretório de uploads exista
-        Path uploadPath = Paths.get(UPLOAD_DIR);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+        if (StringUtils.hasText(contentRatingString)) {
+            try {
+                // usa o método auxiliar criado no Enum para converter a String
+                ContentRatingEnum rating = ContentRatingEnum.fromString(contentRatingString);
+                book.setContentRating(rating);
+                logger.info("Content rating set to: " + rating);
+            } catch (IllegalArgumentException e) {
+                logger.severe("Invalid content rating value provided: " + contentRatingString);
+
+                throw new ResourceNotFoundException("Valor de classificação indicativa inválido: " + contentRatingString);
+            }
         }
 
-        // gera um nome de arquivo único para evitar conflitos
-        String originalFileName = file.getOriginalFilename();
+        Book savedBook = bookRepository.save(book);
+        logger.info("Book registered with ID: " + savedBook.getId());
+
+        if(file != null && !file.isEmpty()) {
+            logger.info("Image detected. Processing...");
+
+            Path imagePath = saveImageFile(file); //método que auxilia a savar a imagem
+            savedBook.setImagePath(imagePath.toString()); //define o caminho da imagem
+
+            logger.info("Saving image path to the book: " + imagePath);
+            return bookRepository.save(savedBook);
+        }
+        return savedBook;
+    }
+
+    private Path saveImageFile(MultipartFile file) throws IOException {
+        Path uploadPath = Paths.get(UPLOAD_DIR);
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectory(uploadPath);
+        }
+
+        // limpa o nome do arquivo para evitar problemas de path traversal
+        String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+        // gera um nome de arquivo único para evitar conflitos
         String uniqueFileName = UUID.randomUUID().toString() + extension;
 
-        Path path = uploadPath.resolve(uniqueFileName);
-        Files.copy(file.getInputStream(), path);
+        Path filePath = uploadPath.resolve(uniqueFileName);
+        Files.copy(file.getInputStream(), filePath);
 
-        book.setImagePath(path.toString());
+        return filePath;
+    }
 
-        Book updatedBook = bookRepository.save(book);
-
+    public Book saveBookImage(Long id, MultipartFile file) throws IOException {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
+        Path imagePath = saveImageFile(file);
+        book.setImagePath(imagePath.toString());
         return bookRepository.save(book);
     }
 }

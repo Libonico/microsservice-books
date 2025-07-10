@@ -33,16 +33,30 @@ public class BookController {
 
     //retorna o registro de um livro em sistema
     //localhost:8888/registrer
-    @PostMapping(value = "/register",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Book> register(@RequestBody Book book) {
-        Book registredBook = service.register(book);
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Book> register(@RequestParam("title")  String title,
+                                         @RequestParam("author") String author,
+                                         @RequestParam("publishedYear") Integer publishedYear,
+                                         @RequestParam("gender") String gender,
+                                         @RequestParam("contentRating") String contentRating,
+                                         @RequestParam("file") MultipartFile file) {
+        try{
+            //cria o objeto Book com os dados recebidos
+            Book bookData = new Book();
+            bookData.setTitle(title);
+            bookData.setAuthor(author);
+            bookData.setPublishedYear(publishedYear);
+            bookData.setGender(gender);
 
-        URI url = URI.create("/book/" + registredBook.getId());
+            //método que lida com o livro e a imagem
+            Book registeredBook = service.registerWithImage(bookData,contentRating, file);
 
-        return ResponseEntity.created(url).body(registredBook);
+            URI url = URI.create("/book" + registeredBook.getId());
+            return ResponseEntity.created(url).body(registeredBook);
+
+        } catch (IOException e){
+            return ResponseEntity.status(500).build();
+        }
     }
 
     //retorna o livro editado

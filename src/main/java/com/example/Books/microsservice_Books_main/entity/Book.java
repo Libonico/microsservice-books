@@ -19,7 +19,11 @@
         private int publishedYear;
         private String gender;
         private String pagesQuantity;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "content_rating")
         private ContentRatingEnum contentRating;
+
         private String imagePath;
 
         public Book() {}
