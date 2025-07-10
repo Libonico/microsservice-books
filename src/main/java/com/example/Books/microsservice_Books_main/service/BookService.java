@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
@@ -85,7 +86,7 @@ public class BookService {
     }
 
     @Transactional
-    public Book registerWithImage(Book book,String contentRatingString, MultipartFile file) throws IOException {
+    public Book registerWithImage(Book book, String contentRatingString, MultipartFile file) throws IOException {
         logger.info("Registering a new book.");
 
         if (StringUtils.hasText(contentRatingString)) {
@@ -97,15 +98,17 @@ public class BookService {
             } catch (IllegalArgumentException e) {
                 logger.severe("Invalid content rating value provided: " + contentRatingString);
 
-                throw new ResourceNotFoundException("Valor de classificação indicativa inválido: " + contentRatingString);
+                throw new ResourceNotFoundException("Invalid content rating value provided: " + contentRatingString);
             }
         }
 
         Book savedBook = bookRepository.save(book);
         logger.info("Book registered with ID: " + savedBook.getId());
 
-        if(file != null && !file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             logger.info("Image detected. Processing...");
+
+            validateImageFile(file);
 
             Path imagePath = saveImageFile(file); //método que auxilia a savar a imagem
             savedBook.setImagePath(imagePath.toString()); //define o caminho da imagem
@@ -141,5 +144,16 @@ public class BookService {
         Path imagePath = saveImageFile(file);
         book.setImagePath(imagePath.toString());
         return bookRepository.save(book);
+    }
+
+    private void validateImageFile(MultipartFile file) {
+        // lista de MIME Types permitidos
+        List<String> allowedMimeTypes = Arrays.asList("image/jpeg", "image/png");
+
+        String fileMimeType = file.getContentType();
+
+        if (fileMimeType == null || !allowedMimeTypes.contains(fileMimeType.toLowerCase())) {
+            throw new IllegalArgumentException("Invalid image type provided.");
+        }
     }
 }

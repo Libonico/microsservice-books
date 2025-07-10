@@ -2,6 +2,7 @@
 
     import com.example.Books.microsservice_Books_main.enums.ContentRatingEnum;
     import jakarta.persistence.*;
+
     import java.io.Serializable;
     import java.util.Objects;
 
@@ -13,7 +14,6 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
-
         private String title;
         private String author;
         private int publishedYear;

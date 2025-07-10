@@ -6,14 +6,11 @@ import com.example.Books.microsservice_Books_main.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 import java.net.URI;
 import java.util.List;
 
@@ -44,6 +41,15 @@ public class BookController {
         try{
             //cria o objeto Book com os dados recebidos
             Book bookData = new Book();
+
+            if (!StringUtils.hasText(title) || !StringUtils.hasText(author) || publishedYear == null || pagesQuantity == null || !StringUtils.hasText(gender) || !StringUtils.hasText(contentRating)) {
+                throw new IllegalArgumentException("All fields are required!.");
+            }
+
+            if(bookRepository.existsByTitle(title)){
+                throw new IllegalArgumentException("Title already exists!.");
+            }
+
             bookData.setTitle(title);
             bookData.setAuthor(author);
             bookData.setPublishedYear(publishedYear);
@@ -86,8 +92,8 @@ public class BookController {
     }
 
     //retorna os todos os livros cadastrados em sistema
-    //localhost:8888/books/all_books
-    @GetMapping(value = "/all_books", produces = MediaType.APPLICATION_JSON_VALUE)
+    //localhost:8888/books/
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> listAllBooks() {
         return service.listAllBooks();
     }

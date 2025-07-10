@@ -11,4 +11,5 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findBooksByContentRating(ContentRatingEnum contentRating);
     List<Book> findBooksByTitleContainingIgnoreCase(String title);
+    boolean existsByTitle(String title);
 }
