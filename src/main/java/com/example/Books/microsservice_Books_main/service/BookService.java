@@ -29,7 +29,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    private static String UPLOAD_DIR = "uploads/";
+    private static String UPLOAD_DIR = "uploads/images/";
 
     //função para registro de livros
     public Book register(Book book) {
@@ -38,9 +38,9 @@ public class BookService {
     }
 
     //função para edição de livros
-    public Book edit(Long id, Book book) {
+    public Book edit(Book book) {
         logger.info("The informations has been edited."); //logger para fins de confirmação através do console
-        Book entity = bookRepository.findById(id).
+        Book entity = bookRepository.findById(book.getId()).
                 orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
 
         entity.setAuthor(book.getAuthor());

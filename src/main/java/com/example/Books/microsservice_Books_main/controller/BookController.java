@@ -23,7 +23,7 @@ public class BookController {
     private BookService service;
 
     // diretório onde as imagens serão salvas
-    private static String UPLOAD_DIR = "uploads/";
+    private static String UPLOAD_DIR = "uploads/images/";
 
     @Autowired
     private BookRepository bookRepository;
@@ -69,11 +69,11 @@ public class BookController {
 
     //retorna o livro editado
     //localhost:8888/edit
-    @PutMapping(value = "/{id}/edit",
+    @PutMapping(value = "/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> edit(@PathVariable("id") Long id, @RequestBody Book book) {
-        return ResponseEntity.ok(service.edit(id, book));
+    public ResponseEntity<Book> edit(@RequestBody Book book) {
+        return ResponseEntity.ok(service.edit(book));
     }
 
     //faz a remoção do livro do sistema
