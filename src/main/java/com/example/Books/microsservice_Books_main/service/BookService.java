@@ -38,9 +38,9 @@ public class BookService {
     }
 
     //função para edição de livros
-    public Book edit(Book book) {
+    public Book edit(Long id, Book book) {
         logger.info("The informations has been edited."); //logger para fins de confirmação através do console
-        Book entity = bookRepository.findById(book.getId()).
+        Book entity = bookRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
 
         entity.setAuthor(book.getAuthor());
