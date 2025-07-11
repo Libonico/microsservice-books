@@ -111,7 +111,7 @@ public class    BookService {
             validateImageFile(file);
 
             Path imagePath = saveImageFile(file); //método que auxilia a savar a imagem
-            savedBook.setImagePath(imagePath.toString()); //define o caminho da imagem
+            savedBook.setImagePath(imagePath.getFileName().toString()); //define o caminho da imagem
 
             logger.info("Saving image path to the book: " + imagePath);
             return bookRepository.save(savedBook);
@@ -123,7 +123,7 @@ public class    BookService {
         Path uploadPath = Paths.get(UPLOAD_DIR);
 
         if (!Files.exists(uploadPath)) {
-            Files.createDirectory(uploadPath);
+            Files.createDirectories(uploadPath);
         }
 
         // limpa o nome do arquivo para evitar problemas de path traversal
@@ -142,7 +142,7 @@ public class    BookService {
     public Book saveBookImage(Long id, MultipartFile file) throws IOException {
         Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found!"));
         Path imagePath = saveImageFile(file);
-        book.setImagePath(imagePath.toString());
+        book.setImagePath(imagePath.getFileName().toString());
         return bookRepository.save(book);
     }
 
