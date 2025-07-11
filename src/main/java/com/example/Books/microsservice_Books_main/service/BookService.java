@@ -148,7 +148,7 @@ public class BookService {
 
     private void validateImageFile(MultipartFile file) {
         // lista de MIME Types permitidos
-        List<String> allowedMimeTypes = Arrays.asList("image/jpeg", "image/png");
+        List<String> allowedMimeTypes = Arrays.asList("image/jpeg", "image/png", "image/jpg", "image/svg");
 
         String fileMimeType = file.getContentType();
 
