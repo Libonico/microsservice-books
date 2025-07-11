@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 //define o prefixo "book" na url
 @RequestMapping("/book")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BookController {
 
     @Autowired

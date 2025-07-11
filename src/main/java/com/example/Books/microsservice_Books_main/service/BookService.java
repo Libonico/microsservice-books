@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
-public class BookService {
+public class    BookService {
 
     public final AtomicLong counter = new AtomicLong();
     private Logger logger = Logger.getLogger(BookService.class.getName()); //cria o logger
