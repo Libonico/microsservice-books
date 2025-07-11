@@ -24,6 +24,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/images/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/book").permitAll()
                         .requestMatchers(HttpMethod.GET, "/book/{id}").permitAll()
                         .requestMatchers(HttpMethod.HEAD, "/book/{id}").permitAll()

@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
-public class    BookService {
+public class BookService {
 
     public final AtomicLong counter = new AtomicLong();
     private Logger logger = Logger.getLogger(BookService.class.getName()); //cria o logger
@@ -120,22 +120,26 @@ public class    BookService {
     }
 
     private Path saveImageFile(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(UPLOAD_DIR);
+        // 1. USA EXATAMENTE A MESMA LÓGICA DA WEBCONFIG para definir o diretório de upload.
+        Path uploadDir = Paths.get(System.getProperty("user.home"), "app-livros-uploads", "images");
 
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+        // 2. Garante que o diretório exista.
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
         }
 
-        // limpa o nome do arquivo para evitar problemas de path traversal
+        // Limpa o nome do arquivo para evitar problemas de segurança.
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-        // gera um nome de arquivo único para evitar conflitos
+        // Gera um nome de arquivo único.
         String uniqueFileName = UUID.randomUUID().toString() + extension;
 
-        Path filePath = uploadPath.resolve(uniqueFileName);
+        // Resolve o caminho final do arquivo.
+        Path filePath = uploadDir.resolve(uniqueFileName);
         Files.copy(file.getInputStream(), filePath);
 
+        // Retorna o caminho completo, mas vamos usar apenas o nome do arquivo depois.
         return filePath;
     }
 
