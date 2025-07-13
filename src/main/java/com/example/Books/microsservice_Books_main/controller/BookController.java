@@ -69,12 +69,12 @@ public class BookController {
     }
 
     //retorna o livro editado
-    //localhost:8888/edit
-    @PutMapping(value = "/edit",
+    //localhost:8888/edit/{id}
+    @PutMapping(value = "/edit/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> edit(@RequestBody Book book) {
-        return ResponseEntity.ok(service.edit(book));
+    public ResponseEntity<Book> edit(@PathVariable("id") Long id, @RequestBody Book book) {
+        return ResponseEntity.ok(service.edit(id, book));
     }
 
     //faz a remoção do livro do sistema
